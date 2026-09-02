@@ -2,28 +2,31 @@
 <main class="page-container">
   <h1><%= title %></h1>
   <p>Here are a few of our trusted partner organizations:</p>
-  <ul class="card-list">
-    <li class="card-item">
-      <img src="/images/brightfuture-logo.png" alt="BrightFuture Builders logo">
-      <div class="card-info">
-        <strong>BrightFuture Builders</strong>
-        <span>info@brightfuture.org</span>
+  
+  <div class="card-grid">
+    <section class="card">
+      <img src="/images/brightfuture-logo.png" alt="BrightFuture Builders Logo" class="card-logo">
+      <div class="card-content">
+        <h3>BrightFuture Builders</h3>
+        <p>info@brightfuture.org</p>
       </div>
-    </li>
-    <li class="card-item">
-      <img src="/images/greenharvest-logo.png" alt="GreenHarvest Growers logo">
-      <div class="card-info">
-        <strong>GreenHarvest Growers</strong>
-        <span>contact@greenharvest.org</span>
+    </section>
+
+    <section class="card">
+      <img src="/images/greenharvest-logo.png" alt="GreenHarvest Growers Logo" class="card-logo">
+      <div class="card-content">
+        <h3>GreenHarvest Growers</h3>
+        <p>contact@greenharvest.org</p>
       </div>
-    </li>
-    <li class="card-item">
-      <img src="/images/unityserve-logo.png" alt="UnityServe Volunteers logo">
-      <div class="card-info">
-        <strong>UnityServe Volunteers</strong>
-        <span>hello@unityserve.org</span>
+    </section>
+
+    <section class="card">
+      <img src="/images/unityserve-logo.png" alt="UnityServe Volunteers Logo" class="card-logo">
+      <div class="card-content">
+        <h3>UnityServe Volunteers</h3>
+        <p>hello@unityserve.org</p>
       </div>
-    </li>
-  </ul>
+    </section>
+  </div>
 </main>
 <%- include('partials/footer') %>
