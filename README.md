@@ -1,1 +1,1 @@
-# -cse340-course
+# cse340-course
