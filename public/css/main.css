@@ -102,10 +102,11 @@ h2 {
   margin: 1.5rem 0 0;
 }
 
+.card-grid,
 .card-list {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
   margin-top: 1.5rem;
 }
@@ -176,7 +177,11 @@ h2 {
   font-size: 0.875rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .card-grid,
+  .card-list {
+    grid-template-columns: 1fr;
+  }
   .nav-container {
     flex-direction: column;
     align-items: flex-start;
