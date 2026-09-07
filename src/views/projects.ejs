@@ -1,11 +1,19 @@
 ﻿<%- include('partials/header') %>
 <main class="page-container">
   <h1><%= title %></h1>
-  <h2>Upcoming Service Projects</h2>
+  <p>Explore our upcoming community service projects:</p>
+
   <ul class="bullet-list">
-    <li><strong>Park Cleanup:</strong> Join us to clean up local parks and restore natural spaces.</li>
-    <li><strong>Food Drive:</strong> Help collect and distribute food packages to families in need.</li>
-    <li><strong>Community Tutoring:</strong> Volunteer to tutor students across core academic subjects.</li>
+    <% if (projects && projects.length > 0) { %>
+      <% projects.forEach(project => { %>
+        <li>
+          <strong><%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>:</strong>
+          <%= project.title %> <em>(<%= project.organization_name %>)</em>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No service projects currently scheduled.</li>
+    <% } %>
   </ul>
 </main>
 <%- include('partials/footer') %>
