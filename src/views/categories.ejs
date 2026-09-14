@@ -3,14 +3,14 @@
   <h1><%= title %></h1>
   <p>Browse through available service categories:</p>
 
-  <ul class="badge-list">
+  <div class="badges-flex">
     <% if (categories && categories.length > 0) { %>
-      <% categories.forEach(category => { %>
-        <li class="badge-item"><%= category.name %></li>
+      <% categories.forEach(cat => { %>
+        <a href="/category/<%= cat.category_id %>" class="category-badge"><%= cat.name %></a>
       <% }) %>
     <% } else { %>
-      <li>No categories found.</li>
+      <p>No categories available.</p>
     <% } %>
-  </ul>
+  </div>
 </main>
 <%- include('partials/footer') %>

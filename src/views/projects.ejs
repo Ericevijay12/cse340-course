@@ -8,11 +8,12 @@
       <% projects.forEach(project => { %>
         <li>
           <strong><%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>:</strong>
-          <%= project.title %> <em>(<%= project.organization_name %>)</em>
+          <a href="/project/<%= project.project_id %>"><%= project.title %></a>
+          (<em><a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></em>)
         </li>
       <% }) %>
     <% } else { %>
-      <li>No service projects currently scheduled.</li>
+      <li>No upcoming service projects scheduled.</li>
     <% } %>
   </ul>
 </main>

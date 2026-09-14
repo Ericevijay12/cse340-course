@@ -3,14 +3,14 @@
   <h1><%= title %></h1>
   <p>Here are a few of our trusted partner organizations:</p>
   
-  <div class="card-grid">
+  <div class="cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
     <% if (organizations && organizations.length > 0) { %>
       <% organizations.forEach(org => { %>
-        <div class="card-item">
-          <img src="<%= org.logo_path || '/images/default-logo.png' %>" alt="<%= org.name %> Logo">
-          <div class="card-info">
-            <strong><%= org.name %></strong>
-            <span><%= org.email %></span>
+        <div class="org-card" style="display: flex; align-items: center; gap: 1rem; background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); border: 1px solid #eef2f6;">
+          <img src="<%= org.logo_path %>" alt="<%= org.name %> Logo" style="width: 65px; height: 65px; object-fit: contain; flex-shrink: 0;">
+          <div class="org-info">
+            <h2 style="margin: 0 0 0.35rem 0; font-size: 1.15rem;"><a href="/organization/<%= org.organization_id %>" style="color: #0b3c5d; text-decoration: none; font-weight: 700;"><%= org.name %></a></h2>
+            <p style="margin: 0; font-size: 0.95rem;"><a href="mailto:<%= org.email %>" style="color: #1976d2; text-decoration: none;"><%= org.email %></a></p>
           </div>
         </div>
       <% }) %>

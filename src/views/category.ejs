@@ -1,0 +1,21 @@
+﻿<%- include('partials/header') %>
+<main class="page-container">
+  <div style="background: #ffffff; padding: 2rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 1rem;">
+    <h1 style="margin-top: 0;"><%= category.name %></h1>
+    <p>Projects under this category:</p>
+
+    <ul class="bullet-list" style="line-height: 1.8;">
+      <% if (projects && projects.length > 0) { %>
+        <% projects.forEach(project => { %>
+          <li>
+            <a href="/project/<%= project.project_id %>" style="color: #0d47a1; font-weight: 600;"><%= project.title %></a>
+            (<em><a href="/organization/<%= project.organization_id %>" style="color: #1565c0;"><%= project.organization_name %></a></em>)
+          </li>
+        <% }) %>
+      <% } else { %>
+        <li>No service projects found for this category.</li>
+      <% } %>
+    </ul>
+  </div>
+</main>
+<%- include('partials/footer') %>

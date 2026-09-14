@@ -1,15 +1,23 @@
 ﻿import pg from 'pg';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
 const { Pool } = pg;
 
+const connectionString = process.env.DATABASE_URL;
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  connectionString,
+  ssl: connectionString && connectionString.includes('render.com') 
+    ? { rejectUnauthorized: false } 
+    : (process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false)
 });
 
-export default {
-  query: (text, params) => pool.query(text, params)
-};
+export async function testConnection() {
+  const client = await pool.connect();
+  try {
+    const res = await client.query('SELECT NOW()');
+    console.log('Database connected successfully:', res.rows[0].now);
+  } finally {
+    client.release();
+  }
+}
+
+export default pool;
