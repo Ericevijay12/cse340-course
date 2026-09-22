@@ -1,25 +1,41 @@
 ﻿import express from 'express';
+import session from 'express-session';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import flash from './src/middleware/flash.js';
 import { testConnection } from './src/models/db.js';
 import router from './src/routes.js';
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
+const SESSION_SECRET = process.env.SESSION_SECRET || 'dev_secret_key_12345';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Serve static assets
-app.use(express.static(path.join(__dirname, 'public')));
+// Session Management
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60 * 60 * 1000 }
+}));
 
-// Set EJS view engine
+// Flash Messages
+app.use(flash);
+
+// Form and JSON Body Parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Static Files & View Engine
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-// Logging middleware
+// Logging
 app.use((req, res, next) => {
   if (NODE_ENV === 'development') {
     console.log(`${req.method} ${req.url}`);
@@ -27,23 +43,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// Expose NODE_ENV to templates
+// Pass Environment to Views
 app.use((req, res, next) => {
   res.locals.NODE_ENV = NODE_ENV;
   next();
 });
 
-// Mount application router
+// Mount Routes
 app.use(router);
 
-// Catch-all 404 handler
+// 404 Handler
 app.use((req, res, next) => {
   const err = new Error('Page Not Found');
   err.status = 404;
   next(err);
 });
 
-// Centralized error handler
+// Centralized Global Error Handler
 app.use((err, req, res, next) => {
   console.error('Error occurred:', err.message);
   if (err.stack) console.error('Stack trace:', err.stack);

@@ -1,24 +1,26 @@
 ﻿<%- include('partials/header') %>
 <main class="page-container">
-  <h1><%= title %></h1>
+  <div style="background: #ffffff; padding: 2rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 1rem;">
+    <h1><%= organizationDetails.name %></h1>
+    <img src="<%= organizationDetails.logo_path %>" alt="<%= organizationDetails.name %> logo" style="max-width: 150px; margin-bottom: 1rem;">
+    
+    <p><strong>Contact Email:</strong> <a href="mailto:<%= organizationDetails.email %>"><%= organizationDetails.email %></a></p>
+    <p><%= organizationDetails.description %></p>
+    <p><a href="/edit-organization/<%= organizationDetails.organization_id %>" style="color: #0d47a1; font-weight: 600;">✏️ Edit Organization</a></p>
 
-  <h2><%= organizationDetails.name %></h2>
-  <img src="<%= organizationDetails.logo_path %>" alt="<%= organizationDetails.name %> logo" style="max-width: 150px;">
-
-  <p><strong>Contact Email:</strong> <a href="mailto:<%= organizationDetails.email %>"><%= organizationDetails.email %></a></p>
-
-  <h3>Service Projects</h3>
-  <ul class="bullet-list">
-    <% if (projects && projects.length > 0) { %>
-      <% projects.forEach(project => { %>
-        <li>
-          <a href="/project/<%= project.project_id %>"><%= project.title %></a>
-          (<%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>)
-        </li>
-      <% }) %>
-    <% } else { %>
-      <li>No service projects currently associated with this organization.</li>
-    <% } %>
-  </ul>
+    <h3>Service Projects</h3>
+    <ul class="bullet-list" style="line-height: 1.8;">
+      <% if (projects && projects.length > 0) { %>
+        <% projects.forEach(project => { %>
+          <li>
+            <a href="/project/<%= project.project_id %>" style="color: #0d47a1; font-weight: 600;"><%= project.title %></a>
+            (<%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>)
+          </li>
+        <% }) %>
+      <% } else { %>
+        <li>No service projects currently associated with this organization.</li>
+      <% } %>
+    </ul>
+  </div>
 </main>
 <%- include('partials/footer') %>

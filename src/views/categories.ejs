@@ -1,12 +1,15 @@
 ﻿<%- include('partials/header') %>
 <main class="page-container">
-  <h1><%= title %></h1>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h1><%= title %></h1>
+    <a href="/new-category" class="btn-primary">+ Add Category</a>
+  </div>
   <p>Browse through available service categories:</p>
 
-  <div class="badges-flex">
+  <div class="badges-flex" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
     <% if (categories && categories.length > 0) { %>
       <% categories.forEach(cat => { %>
-        <a href="/category/<%= cat.category_id %>" class="category-badge"><%= cat.name %></a>
+        <a href="/category/<%= cat.category_id %>" style="display: inline-block; background-color: #e3f2fd; color: #0d47a1; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none; font-weight: 500; font-size: 0.95rem;"><%= cat.name %></a>
       <% }) %>
     <% } else { %>
       <p>No categories available.</p>

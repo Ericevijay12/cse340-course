@@ -57,12 +57,7 @@ export async function getProjectDetails(id) {
 
 export async function getProjectsByOrganizationId(organizationId) {
   const query = `
-    SELECT 
-      project_id,
-      title,
-      description,
-      location,
-      project_date
+    SELECT project_id, title, description, location, project_date
     FROM projects
     WHERE organization_id = $1
     ORDER BY project_date ASC;
@@ -89,4 +84,31 @@ export async function getProjectsByCategoryId(categoryId) {
   `;
   const result = await pool.query(query, [categoryId]);
   return result.rows;
+}
+
+export async function createProject(title, description, location, projectDate, organizationId) {
+  const query = `
+    INSERT INTO projects (title, description, location, project_date, organization_id)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING project_id;
+  `;
+  const result = await pool.query(query, [title, description, location, projectDate, organizationId]);
+  if (result.rows.length === 0) {
+    throw new Error('Failed to create project');
+  }
+  return result.rows[0].project_id;
+}
+
+export async function updateProject(projectId, title, description, location, projectDate, organizationId) {
+  const query = `
+    UPDATE projects
+    SET title = $1, description = $2, location = $3, project_date = $4, organization_id = $5
+    WHERE project_id = $6
+    RETURNING project_id;
+  `;
+  const result = await pool.query(query, [title, description, location, projectDate, organizationId, projectId]);
+  if (result.rows.length === 0) {
+    throw new Error('Project not found');
+  }
+  return result.rows[0].project_id;
 }

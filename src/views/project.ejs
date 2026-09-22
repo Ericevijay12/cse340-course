@@ -1,7 +1,14 @@
 ﻿<%- include('partials/header') %>
 <main class="page-container">
   <div style="background: #ffffff; padding: 2rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 1rem;">
-    <h1 style="margin-top: 0;"><%= project.title %></h1>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+      <h1 style="margin-top: 0;"><%= project.title %></h1>
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="/edit-project/<%= project.project_id %>" style="color: #0d47a1; font-weight: 600; text-decoration: none;">✏️ Edit Project</a>
+        <a href="/assign-categories/<%= project.project_id %>" style="color: #1976d2; font-weight: 600; text-decoration: none;">🏷️ Edit Categories</a>
+      </div>
+    </div>
+    
     <p><strong>Date:</strong> <%= new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></p>
     <p><strong>Location:</strong> <%= project.location %></p>
     <p><strong>Partner Organization:</strong> <a href="/organization/<%= project.organization_id %>" style="color: #0d47a1; font-weight: 600;"><%= project.organization_name %></a></p>
@@ -15,7 +22,7 @@
           <a href="/category/<%= cat.category_id %>" style="display: inline-block; background-color: #e3f2fd; color: #0d47a1; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none; font-weight: 500; font-size: 0.95rem;"><%= cat.name %></a>
         <% }) %>
       <% } else { %>
-        <p>No categories assigned.</p>
+        <p>No categories assigned. <a href="/assign-categories/<%= project.project_id %>">Assign categories now</a>.</p>
       <% } %>
     </div>
   </div>

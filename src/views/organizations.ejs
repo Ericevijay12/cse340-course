@@ -1,6 +1,9 @@
 ﻿<%- include('partials/header') %>
 <main class="page-container">
-  <h1><%= title %></h1>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h1><%= title %></h1>
+    <a href="/new-organization" class="btn-primary">+ Add Organization</a>
+  </div>
   <p>Here are a few of our trusted partner organizations:</p>
   
   <div class="cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
