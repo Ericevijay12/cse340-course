@@ -2,7 +2,9 @@
 <main class="page-container">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
     <h1><%= title %></h1>
+    <% if (user && user.role_name === 'admin') { %>
     <a href="/new-organization" class="btn-primary">+ Add Organization</a>
+    <% } %>
   </div>
   <p>Here are a few of our trusted partner organizations:</p>
   

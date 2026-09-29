@@ -1,0 +1,43 @@
+﻿<%- include('partials/header') %>
+<main class="page-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h1><%= title %></h1>
+        <a href="/dashboard" class="btn-primary" style="background-color: #64748b;">Back to Dashboard</a>
+    </div>
+
+    <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background-color: #0b3c5d; color: white;">
+                    <th style="padding: 12px 16px;">User ID</th>
+                    <th style="padding: 12px 16px;">Name</th>
+                    <th style="padding: 12px 16px;">Email (Username)</th>
+                    <th style="padding: 12px 16px;">Role</th>
+                    <th style="padding: 12px 16px;">Registered Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (users && users.length > 0) { %>
+                    <% users.forEach(u => { %>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 12px 16px;"><%= u.user_id %></td>
+                            <td style="padding: 12px 16px; font-weight: 600;"><%= u.name %></td>
+                            <td style="padding: 12px 16px;"><%= u.email %></td>
+                            <td style="padding: 12px 16px;">
+                                <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: <%= u.role_name === 'admin' ? '#fef3c7; color: #92400e;' : '#e0f2fe; color: #0369a1;' %>">
+                                    <%= u.role_name %>
+                                </span>
+                            </td>
+                            <td style="padding: 12px 16px; color: #64748b;"><%= new Date(u.created_at).toLocaleDateString() %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5" style="padding: 24px; text-align: center; color: #64748b;">No registered users found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</main>
+<%- include('partials/footer') %>

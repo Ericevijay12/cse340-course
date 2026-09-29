@@ -8,3 +8,7 @@
   </section>
 </main>
 <%- include('partials/footer') %>
+
+<% if (isLoggedIn) { %>
+<p style="text-align: center; margin-top: 1.5rem;"><a href="/dashboard" class="btn-primary">My Dashboard</a></p>
+<% } %>

@@ -1,14 +1,14 @@
 ﻿import express from 'express';
 import session from 'express-session';
-import { fileURLToPath } from 'url';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import router from './src/routes.js';
 import flash from './src/middleware/flash.js';
 import { testConnection } from './src/models/db.js';
-import router from './src/routes.js';
 
-const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+const NODE_ENV = process.env.NODE_ENV || 'production';
 const PORT = process.env.PORT || 3000;
-const SESSION_SECRET = process.env.SESSION_SECRET || 'dev_secret_key_12345';
+const SESSION_SECRET = process.env.SESSION_SECRET || 'fallback_secret_key_987654321';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-// Logging
+// Logging in Development
 app.use((req, res, next) => {
   if (NODE_ENV === 'development') {
     console.log(`${req.method} ${req.url}`);
@@ -43,8 +43,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Pass Environment to Views
+// Pass Auth State and Environment to all EJS Views
 app.use((req, res, next) => {
+  res.locals.isLoggedIn = Boolean(req.session && req.session.user);
+  res.locals.user = req.session ? req.session.user || null : null;
   res.locals.NODE_ENV = NODE_ENV;
   next();
 });

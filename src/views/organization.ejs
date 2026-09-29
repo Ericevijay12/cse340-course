@@ -6,7 +6,9 @@
     
     <p><strong>Contact Email:</strong> <a href="mailto:<%= organizationDetails.email %>"><%= organizationDetails.email %></a></p>
     <p><%= organizationDetails.description %></p>
-    <p><a href="/edit-organization/<%= organizationDetails.organization_id %>" style="color: #0d47a1; font-weight: 600;">✏️ Edit Organization</a></p>
+    <p><% if (user && user.role_name === 'admin') { %>
+    <a href="/edit-organization/<%= organizationDetails.organization_id %>" style="color: #0d47a1; font-weight: 600;">✏️ Edit Organization</a>
+    <% } %></p>
 
     <h3>Service Projects</h3>
     <ul class="bullet-list" style="line-height: 1.8;">

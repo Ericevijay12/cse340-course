@@ -1,69 +1,94 @@
 ﻿import express from 'express';
-import { showHomePage } from './controllers/index.js';
 import { 
-  showOrganizationsPage, 
-  showOrganizationDetailsPage,
-  showNewOrganizationForm,
+  homePage, 
+  aboutPage, 
+  contactPage 
+} from './controllers/pages.js';
+import { 
+  organizationsPage, 
+  organizationDetailPage,
+  newOrganizationPage,
   processNewOrganizationForm,
   showEditOrganizationForm,
   processEditOrganizationForm,
-  organizationValidation
+  organizationValidation 
 } from './controllers/organizations.js';
 import { 
-  showProjectsPage, 
-  showProjectDetailsPage,
+  projectsPage, 
+  projectDetailPage,
   showNewProjectForm,
   processNewProjectForm,
   showEditProjectForm,
   processEditProjectForm,
-  projectValidation
+  showAssignCategoriesForm,
+  processAssignCategoriesForm,
+  projectValidation 
 } from './controllers/projects.js';
 import { 
-  showCategoriesPage, 
-  showCategoryDetailsPage,
+  categoriesPage, 
+  categoryDetailPage,
   showNewCategoryForm,
   processNewCategoryForm,
   showEditCategoryForm,
   processEditCategoryForm,
-  categoryValidation,
-  showAssignCategoriesForm,
-  processAssignCategoriesForm
+  categoryValidation 
 } from './controllers/categories.js';
-import { testErrorPage } from './controllers/errors.js';
+import {
+  showUserRegistrationForm,
+  processUserRegistrationForm,
+  showLoginForm,
+  processLoginForm,
+  processLogout,
+  showDashboard,
+  showUsersList,
+  requireLogin,
+  requireRole
+} from './controllers/users.js';
 
 const router = express.Router();
 
-router.get('/', showHomePage);
+// Static Pages
+router.get('/', homePage);
+router.get('/about', aboutPage);
+router.get('/contact', contactPage);
 
-// Organizations
-router.get('/organizations', showOrganizationsPage);
-router.get('/new-organization', showNewOrganizationForm);
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
-router.get('/organization/:id', showOrganizationDetailsPage);
-router.get('/edit-organization/:id', showEditOrganizationForm);
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+// Auth Routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
 
-// Projects
-router.get('/projects', showProjectsPage);
-router.get('/new-project', showNewProjectForm);
-router.post('/new-project', projectValidation, processNewProjectForm);
-router.get('/project/:id', showProjectDetailsPage);
-router.get('/edit-project/:id', showEditProjectForm);
-router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+// Protected User Routes
+router.get('/dashboard', requireLogin, showDashboard);
 
-// Categories
-router.get('/categories', showCategoriesPage);
-router.get('/new-category', showNewCategoryForm);
-router.post('/new-category', categoryValidation, processNewCategoryForm);
-router.get('/category/:id', showCategoryDetailsPage);
-router.get('/edit-category/:id', showEditCategoryForm);
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+// Admin-Only Registered Users Page (Week 5 Assignment)
+router.get('/users', requireRole('admin'), showUsersList);
 
-// Assign categories
-router.get('/assign-categories/:projectId', showAssignCategoriesForm);
-router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+// Organizations (Public views, Admin CRUD)
+router.get('/organizations', organizationsPage);
+router.get('/organization/:id', organizationDetailPage);
+router.get('/new-organization', requireRole('admin'), newOrganizationPage);
+router.post('/new-organization', requireRole('admin'), organizationValidation, processNewOrganizationForm);
+router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
+router.post('/edit-organization/:id', requireRole('admin'), organizationValidation, processEditOrganizationForm);
 
-// Error testing
-router.get('/test-error', testErrorPage);
+// Projects (Public views, Admin CRUD)
+router.get('/projects', projectsPage);
+router.get('/project/:id', projectDetailPage);
+router.get('/new-project', requireRole('admin'), showNewProjectForm);
+router.post('/new-project', requireRole('admin'), projectValidation, processNewProjectForm);
+router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
+router.post('/edit-project/:id', requireRole('admin'), projectValidation, processEditProjectForm);
+router.get('/assign-categories/:id', requireRole('admin'), showAssignCategoriesForm);
+router.post('/assign-categories/:id', requireRole('admin'), processAssignCategoriesForm);
+
+// Categories (Public views, Admin CRUD)
+router.get('/categories', categoriesPage);
+router.get('/category/:id', categoryDetailPage);
+router.get('/new-category', requireRole('admin'), showNewCategoryForm);
+router.post('/new-category', requireRole('admin'), categoryValidation, processNewCategoryForm);
+router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
+router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 
 export default router;

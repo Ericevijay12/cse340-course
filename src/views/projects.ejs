@@ -2,7 +2,9 @@
 <main class="page-container">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
     <h1><%= title %></h1>
+    <% if (user && user.role_name === 'admin') { %>
     <a href="/new-project" class="btn-primary">+ Add Project</a>
+    <% } %>
   </div>
   <p>Explore our upcoming community service projects:</p>
 

@@ -1,0 +1,21 @@
+﻿<%- include('partials/header') %>
+<main class="page-container">
+    <div class="form-card" style="max-width: 800px;">
+        <h1><%= title %></h1>
+        
+        <div style="margin: 1.5rem 0; padding: 1.5rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;"><strong>Name:</strong> <%= name %></p>
+            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;"><strong>Email:</strong> <%= email %></p>
+            <p style="font-size: 1.1rem;"><strong>Role:</strong> <span style="display: inline-block; padding: 2px 10px; background: #e0f2fe; color: #0369a1; border-radius: 9999px; font-weight: 600;"><%= role_name %></span></p>
+        </div>
+
+        <% if (user && user.role_name === 'admin') { %>
+            <div style="margin-top: 1.5rem;">
+                <h3>Administrative Controls</h3>
+                <p style="margin-bottom: 1rem; color: #64748b;">Manage system records and view registered accounts:</p>
+                <a href="/users" class="btn-primary">👥 View Registered Users</a>
+            </div>
+        <% } %>
+    </div>
+</main>
+<%- include('partials/footer') %>

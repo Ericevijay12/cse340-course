@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== 'undefined' ? title : 'CSE 340 Service Network' %></title>
+    <title><%= title %> | CSE 340 Network</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -15,21 +15,33 @@
                 <a href="/organizations">Organizations</a>
                 <a href="/projects">Projects</a>
                 <a href="/categories">Categories</a>
+                <% if (isLoggedIn) { %>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/logout">Logout</a>
+                <% } else { %>
+                    <a href="/register">Register</a>
+                    <a href="/login">Login</a>
+                <% } %>
             </nav>
         </div>
     </header>
 
-    <div class="flash-container page-container" style="margin-top: 1rem;">
-        <% if (typeof flash === 'function') { %>
-            <% const messages = flash(); %>
-            <% Object.keys(messages).forEach(type => { %>
-                <% if (messages[type] && messages[type].length > 0) { %>
-                    <% messages[type].forEach(msg => { %>
-                        <div class="alert alert-<%= type %>">
-                            <%= msg %>
-                        </div>
-                    <% }); %>
-                <% } %>
-            <% }); %>
-        <% } %>
-    </div>
+    <% const messages = flash(); %>
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="page-container" style="padding-bottom: 0;">
+            <div class="alert alert-error">
+                <% messages.error.forEach(msg => { %>
+                    <p><%= msg %></p>
+                <% }) %>
+            </div>
+        </div>
+    <% } %>
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="page-container" style="padding-bottom: 0;">
+            <div class="alert alert-success">
+                <% messages.success.forEach(msg => { %>
+                    <p><%= msg %></p>
+                <% }) %>
+            </div>
+        </div>
+    <% } %>
